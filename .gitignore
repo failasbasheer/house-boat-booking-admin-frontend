@@ -1,0 +1,71 @@
+# ======================
+# Dependencies
+# ======================
+/node_modules
+/.pnp
+.pnp.js
+.yarn/install-state.gz
+yarn.lock
+package-lock.json
+
+# ======================
+# Testing
+# ======================
+/coverage
+/jest
+/nyc_output
+
+# ======================
+# Next.js Build & Output
+# ======================
+/.next/
+/out/
+/build
+.next/cache
+
+# ======================
+# Logs & Debug
+# ======================
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# ======================
+# Environment & Secrets
+# ======================
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+
+# ======================
+# Vercel / Hosting
+# ======================
+.vercel
+.vercel/output
+.now
+.now/cache
+
+# ======================
+# TypeScript
+# ======================
+*.tsbuildinfo
+next-env.d.ts
+
+# ======================
+# IDE / Editor
+# ======================
+.vscode/
+.idea/
+
+# ======================
+# OS / Misc
+# ======================
+.DS_Store
+Thumbs.db
+*.swp
+*.tmp
+*.bak
+*.orig
