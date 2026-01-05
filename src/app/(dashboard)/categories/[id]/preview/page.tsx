@@ -27,7 +27,15 @@ export default function CategoryPreviewPage() {
             const all = await CategoryAPI.getAll() as Category[];
             const found = all.find(c => c._id === catId || c.slug === catId || c.id === catId);
             if (found) {
+                console.group('Category Preview Debug');
+                console.log('Category ID/Slug:', catId);
+                console.log('Category Data:', found);
+                console.log('Raw Image Placeholder:', found.imagePlaceholder);
+                console.log('Processed Image URL:', getImageUrl(found.imagePlaceholder));
+                console.groupEnd();
                 setCategory(found);
+            } else {
+                console.warn('Category not found for ID:', catId);
             }
         } catch (e) {
             console.error(e);
