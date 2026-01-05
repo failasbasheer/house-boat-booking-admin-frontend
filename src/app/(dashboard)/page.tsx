@@ -6,6 +6,7 @@ import { Server, Database, UserStar } from 'lucide-react';
 export const dynamic = 'force-dynamic';
 
 import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
 
 async function getDashboardStats(headers: RequestInit = {}) {
     try {
@@ -13,7 +14,8 @@ async function getDashboardStats(headers: RequestInit = {}) {
         return { success: true, data: stats };
     } catch (e: any) {
         console.error('Stats fetch failed', e);
-        return { success: false, error: e.message || 'Failed to load stats' };
+        // Pass the specifics back so we can decide to redirect
+        return { success: false, error: e.message || 'Failed to load stats', isAuthError: e.message === 'Unauthorized' };
     }
 }
 
@@ -22,6 +24,10 @@ export default async function DashboardPage() {
     const result = await getDashboardStats({ headers: { Cookie: cookieStore.toString() } });
 
     if (!result.success) {
+        if (result.isAuthError) {
+            redirect('/login');
+        }
+
         return (
             <div className="p-8">
                 <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded relative" role="alert">
