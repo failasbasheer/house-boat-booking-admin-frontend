@@ -78,7 +78,14 @@ export const CategoryAPI = {
 // Houseboats (Boats)
 export const HouseboatAPI = {
     getAll: (params: any = {}, options?: RequestInit) => {
-        const query = new URLSearchParams(params).toString();
+        // Clean params to remove undefined/null values
+        const cleanParams: any = {};
+        Object.keys(params).forEach(key => {
+            if (params[key] !== undefined && params[key] !== null && params[key] !== '') {
+                cleanParams[key] = params[key];
+            }
+        });
+        const query = new URLSearchParams(cleanParams).toString();
         return clientFetch<{ data: import('@/types').Houseboat[], meta: any } | import('@/types').Houseboat[]>(`/houseboats?${query}`, options);
     },
     // ... keep existing
