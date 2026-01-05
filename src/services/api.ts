@@ -56,7 +56,7 @@ export const clientFetch = async <T>(endpoint: string, options: RequestInit = {}
 
 export const AuthAPI = {
     login: (credentials: { username: string; password: string }) =>
-        clientFetch<{ user: any }>('/auth/login', {
+        clientFetch<{ user: any; token: string }>('/auth/login', {
             method: 'POST',
             body: JSON.stringify(credentials),
         }),

@@ -17,7 +17,13 @@ export default function LoginPage() {
         setError('');
 
         try {
-            await AuthAPI.login({ username, password });
+            const res = await AuthAPI.login({ username, password });
+
+            // CRITICAL: Set cookie on Frontend Domain (First Party) to allow SSR fetching
+            if (res.token) {
+                document.cookie = `token=${res.token}; path=/; max-age=86400; SameSite=Lax`;
+            }
+
             router.push('/'); // Redirect to dashboard
         } catch (err) {
             console.error(err);
