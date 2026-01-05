@@ -39,8 +39,12 @@ export default async function HouseboatListPage({ searchParams }: { searchParams
         if (Array.isArray(catRes)) {
             categories = catRes;
         }
-    } catch (error) {
-        console.error('Failed to load data', error);
+    } catch (e: any) {
+        console.error('Failed to load data', e);
+        if (e.message === 'Unauthorized' || e.message === 'Invalid Token') {
+            const { redirect } = require('next/navigation');
+            redirect('/login');
+        }
     }
 
     return (

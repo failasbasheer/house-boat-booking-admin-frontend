@@ -26,8 +26,12 @@ export default async function MastersPage({ searchParams }: { searchParams: { ta
             // Fallback
             items = res;
         }
-    } catch (e) {
+    } catch (e: any) {
         console.error(e);
+        if (e.message === 'Unauthorized' || e.message === 'Invalid Token') {
+            const { redirect } = require('next/navigation');
+            redirect('/login');
+        }
     }
 
     const tabs = ['amenities', 'features', 'badges'];
