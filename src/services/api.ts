@@ -20,6 +20,8 @@ export const clientFetch = async <T>(endpoint: string, options: RequestInit = {}
         },
         // CRITICAL: This ensures HTTP-only cookies are sent/received
         credentials: 'include',
+        // CRITICAL: Disable caching for Admin Panel to ensure fresh data
+        cache: 'no-store',
     };
 
     try {
