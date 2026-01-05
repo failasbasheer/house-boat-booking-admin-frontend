@@ -10,17 +10,30 @@ import { cookies } from 'next/headers';
 async function getDashboardStats(headers: RequestInit = {}) {
     try {
         const stats = await clientFetch<any>('/dashboard/stats', headers);
-        return stats;
-    } catch (e) {
+        return { success: true, data: stats };
+    } catch (e: any) {
         console.error('Stats fetch failed', e);
-        return null;
+        return { success: false, error: e.message || 'Failed to load stats' };
     }
 }
 
 export default async function DashboardPage() {
     const cookieStore = cookies();
-    const stats = await getDashboardStats({ headers: { Cookie: cookieStore.toString() } });
+    const result = await getDashboardStats({ headers: { Cookie: cookieStore.toString() } });
 
+    if (!result.success) {
+        return (
+            <div className="p-8">
+                <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded relative" role="alert">
+                    <strong className="font-bold">Error Loading Dashboard: </strong>
+                    <span className="block sm:inline">{result.error}</span>
+                    <p className="text-sm mt-2">Try logging out and logging back in.</p>
+                </div>
+            </div>
+        );
+    }
+
+    const stats = result.data;
     const houseboats = stats?.houseboats || { total: 0, active: 0 };
     const categories = stats?.categories || { total: 0, active: 0 };
     const masters = stats?.masters || { amenities: 0, features: 0, badges: 0 };
