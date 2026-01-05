@@ -1,6 +1,7 @@
 import React, { FC, useState } from 'react';
 import { Houseboat } from '@/types';
 import { UploadService } from '@/services/upload.service';
+import { getImageUrl } from '@/lib/constants';
 import { Image as ImageIcon, Upload, X, CheckCircle } from 'lucide-react';
 
 interface GalleryStepProps {
@@ -213,7 +214,7 @@ export const GalleryStep: FC<GalleryStepProps> = ({ formData, handleChange }) =>
                                 {displayUrl ? (
                                     <>
                                         {/* eslint-disable-next-line @next/next/no-img-element */}
-                                        <img src={displayUrl} alt={slot.label} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                                        <img src={getImageUrl(displayUrl)} alt={slot.label} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
 
                                         {/* Overlay Actions */}
                                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-end pb-4 z-10 pointer-events-none">

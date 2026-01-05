@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import Image from 'next/image';
 import { HouseboatAPI } from '@/services/api';
+import { getImageUrl } from '@/lib/constants';
 import { Houseboat, HouseboatTier } from '@/types';
 
 // Register plugins safely
@@ -289,7 +290,7 @@ export default function HouseboatPackagePage({ params }: Props) {
                 <div className="absolute inset-0 z-0 overflow-hidden">
                     <Image
                         ref={heroImageRef}
-                        src={tier.heroImage || tier.imagePlaceholder || '/placeholder.jpg'}
+                        src={getImageUrl(tier.heroImage || tier.imagePlaceholder)}
                         alt={tier.name}
                         fill
                         className="object-cover origin-center"
@@ -368,7 +369,7 @@ export default function HouseboatPackagePage({ params }: Props) {
                             <div className="grid grid-cols-2 md:grid-cols-3 grid-rows-[150px_150px] md:grid-rows-[220px_220px] gap-2 md:gap-4">
                                 {GALLERY.map((item: any, idx: number) => (
                                     <div key={idx} className={`relative overflow-hidden rounded-2xl bg-ivory-200 group ${item.span}`}>
-                                        <Image src={item.src} alt={item.label} fill className="object-cover" />
+                                        <Image src={getImageUrl(item.src)} alt={item.label} fill className="object-cover" />
                                         <div className="absolute bottom-2 left-2 px-2 py-1 bg-white/90 rounded text-[10px] font-bold uppercase tracking-widest text-forest-950 shadow-sm">
                                             {item.label}
                                         </div>

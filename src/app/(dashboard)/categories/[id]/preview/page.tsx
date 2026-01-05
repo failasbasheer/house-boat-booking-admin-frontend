@@ -4,6 +4,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { CategoryAPI } from '@/services/api';
+import { getImageUrl } from '@/lib/constants';
 import { Category } from '@/types';
 import { ArrowLeft, Check, Star, Users, Clock, Info } from 'lucide-react';
 
@@ -65,7 +66,7 @@ export default function CategoryPreviewPage() {
                     <div className="absolute inset-0 bg-gray-900">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
-                            src={category.imagePlaceholder || '/images/hero-placeholder.jpg'}
+                            src={getImageUrl(category.imagePlaceholder) || '/logo.png'}
                             alt={category.display_name}
                             className="w-full h-full object-cover opacity-80"
                         />

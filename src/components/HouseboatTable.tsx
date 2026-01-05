@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { Edit, Trash2, Eye, AlertTriangle } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { HouseboatAPI } from '@/services/api';
+import { getImageUrl } from '@/lib/constants';
 import { Houseboat } from '@/types';
 import { useToast } from '@/components/ui/Toast';
 import { Modal } from '@/components/ui/Modal';
@@ -25,7 +26,7 @@ const HouseboatRow = memo(({
                 <div className="h-8 w-12 bg-gray-100 rounded overflow-hidden relative border border-gray-200">
                     {hb.images?.hero ? (
                         <Image
-                            src={hb.images.hero}
+                            src={getImageUrl(hb.images.hero)}
                             alt={hb.name}
                             fill
                             className="object-cover"
@@ -107,7 +108,7 @@ const HouseboatCard = memo(({
                 <div className="w-full aspect-video bg-gray-100 rounded mb-1.5 overflow-hidden relative">
                     {hb.images?.hero ? (
                         <Image
-                            src={hb.images.hero}
+                            src={getImageUrl(hb.images.hero)}
                             alt={hb.name}
                             fill
                             className="object-cover"

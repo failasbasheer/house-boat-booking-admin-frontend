@@ -3,6 +3,7 @@ import { useForm, useFieldArray } from 'react-hook-form';
 import { Category } from '@/types';
 import { CategoryAPI } from '@/services/api';
 import { UploadService } from '@/services/upload.service';
+import { getImageUrl } from '@/lib/constants';
 import { useToast } from '@/components/ui/Toast';
 import { Trash2, Plus, GripVertical } from 'lucide-react';
 
@@ -112,7 +113,7 @@ export function CategoryForm({ initialData, onSuccess, onCancel }: CategoryFormP
                                     {watch('imagePlaceholder') ? (
                                         <>
                                             {/* eslint-disable-next-line @next/next/no-img-element */}
-                                            <img src={watch('imagePlaceholder')} alt="Preview" className="w-full h-full object-cover" />
+                                            <img src={getImageUrl(watch('imagePlaceholder'))} alt="Preview" className="w-full h-full object-cover" />
                                             <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
                                                 <span className="text-white text-xs font-medium">Change Image</span>
                                             </div>

@@ -12,6 +12,18 @@ const nextConfig = {
             },
         ];
     },
+    images: {
+        remotePatterns: [
+            {
+                protocol: 'http',
+                hostname: 'localhost',
+            },
+            {
+                protocol: 'https',
+                hostname: 'house-boat-booking-admin-backend.onrender.com',
+            },
+        ],
+    },
 };
 
 export default nextConfig;
