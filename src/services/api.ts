@@ -1,7 +1,7 @@
 // import { ApiResponse } from '@/types';
 
 const API_BASE = typeof window === 'undefined'
-    ? (process.env.INTERNAL_API_URL || 'http://localhost:5001/api') // Server-side
+    ? (process.env.INTERNAL_API_URL || process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api') // Server-side fallback hierarchy
     : (process.env.NEXT_PUBLIC_API_URL || '/api'); // Client-side (proxy)
 
 /**
