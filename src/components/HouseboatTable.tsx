@@ -55,16 +55,7 @@ const HouseboatRow = memo(({
                     {hb.status}
                 </span>
             </td>
-            <td className="px-4 py-1.5 whitespace-nowrap text-xs text-body font-medium text-right font-mono">
-                {(() => {
-                    const min = hb.price_override?.price_range?.min ?? hb.min_price ?? 0;
-                    const max = hb.price_override?.price_range?.max ?? hb.max_price ?? 0;
-                    if (min === 0 && max === 0) {
-                        return <span className="text-gray-400 italic text-[10px]">Price on Request</span>;
-                    }
-                    return `₹ ${min.toLocaleString()} - ₹ ${max.toLocaleString()}`;
-                })()}
-            </td>
+
             <td className="px-4 py-1.5 whitespace-nowrap text-right text-xs font-medium">
                 <div className="flex items-center justify-end gap-1 opacity-100 transition-opacity">
                     <button
@@ -130,16 +121,7 @@ const HouseboatCard = memo(({
                 </div>
                 <h3 className="text-xs font-bold text-gray-900 truncate mb-0">{hb.name}</h3>
                 <p className="text-[9px] text-gray-500 capitalize mb-1">{hb.category_id?.display_name || 'Uncategorized'}</p>
-                <p className="text-xs font-mono font-medium text-gray-900 leading-tight">
-                    {(() => {
-                        const min = hb.price_override?.price_range?.min ?? hb.min_price ?? 0;
-                        const max = hb.price_override?.price_range?.max ?? hb.max_price ?? 0;
-                        if (min === 0 && max === 0) {
-                            return <span className="text-gray-400 italic text-[10px]">Price on Request</span>;
-                        }
-                        return `₹ ${min.toLocaleString()} - ₹ ${max.toLocaleString()}`;
-                    })()}
-                </p>
+
             </div>
             <div className="flex justify-end gap-2 mt-2 pt-1.5 border-t border-gray-50">
                 <Link href={`/houseboats/${hb._id}/preview`} className="text-gray-400 hover:text-blue-500"><Eye size={14} /></Link>
@@ -239,7 +221,7 @@ export function HouseboatTable({ houseboats: initialHouseboats }: { houseboats: 
                             <th className="px-4 py-2 text-left text-[10px] font-bold text-muted uppercase tracking-wider font-serif bg-gray-50/95 backdrop-blur shadow-sm">Image</th>
                             <th className="px-4 py-2 text-left text-[10px] font-bold text-muted uppercase tracking-wider font-serif bg-gray-50/95 backdrop-blur shadow-sm">Name</th>
                             <th className="px-4 py-2 text-left text-[10px] font-bold text-muted uppercase tracking-wider font-serif bg-gray-50/95 backdrop-blur shadow-sm">Status</th>
-                            <th className="px-4 py-2 text-right text-[10px] font-bold text-muted uppercase tracking-wider font-serif bg-gray-50/95 backdrop-blur shadow-sm">Price</th>
+
                             <th className="px-4 py-2 text-right text-[10px] font-bold text-muted uppercase tracking-wider font-serif bg-gray-50/95 backdrop-blur shadow-sm">Actions</th>
                         </tr>
                     </thead>

@@ -75,6 +75,19 @@ export function CategoryForm({ initialData, onSuccess, onCancel }: CategoryFormP
                         <label className="block text-sm font-medium text-gray-700 mb-1">Available Count</label>
                         <input type="number" {...register('availableCount', { valueAsNumber: true })} className="w-full p-2 border rounded-lg" />
                     </div>
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Starting Price (Numerical)</label>
+                        <input type="number" {...register('base_price', { valueAsNumber: true })} className="w-full p-2 border rounded-lg" placeholder="e.g. 15000" />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Display Price (String)</label>
+                        <input {...register('priceDisplay')} className="w-full p-2 border rounded-lg" placeholder="e.g. ₹ 15,000 / night" />
+                        <p className="text-[10px] text-gray-500 mt-1">Used for promo cards</p>
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">WhatsApp Template</label>
+                        <input {...register('whatsappTemplate')} className="w-full p-2 border rounded-lg" placeholder="Message text for WhatsApp link" />
+                    </div>
                     <div className="md:col-span-2">
                         <label className="block text-sm font-medium text-gray-700 mb-1">Tagline</label>
                         <input {...register('tagline')} className="w-full p-2 border rounded-lg" placeholder="e.g. Best Value Experience" />
@@ -82,6 +95,10 @@ export function CategoryForm({ initialData, onSuccess, onCancel }: CategoryFormP
                     <div className="flex items-center space-x-2">
                         <input type="checkbox" {...register('is_active')} className="h-4 w-4 text-blue-600 rounded" />
                         <label className="text-sm font-medium text-gray-700">Active</label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                        <input type="checkbox" {...register('isHero')} className="h-4 w-4 text-amber-600 rounded" />
+                        <label className="text-sm font-medium text-gray-700">Feature in Hero (Promo)</label>
                     </div>
                 </div>
             </div>

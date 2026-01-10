@@ -22,6 +22,10 @@ const nextConfig = {
                 protocol: 'https',
                 hostname: 'house-boat-booking-admin-backend.onrender.com',
             },
+            {
+                protocol: 'https',
+                hostname: 'houseboat-booking.s3.ap-south-1.amazonaws.com',
+            },
         ],
     },
 };

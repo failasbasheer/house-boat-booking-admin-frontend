@@ -4,7 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { AuthAPI } from '@/services/api';
-import { LayoutDashboard, Ship, Package, LogOut, Sliders, PlusCircle } from 'lucide-react';
+import { LayoutDashboard, Ship, Package, LogOut, Sliders, PlusCircle, Briefcase, ClipboardList, Settings } from 'lucide-react';
 import Image from 'next/image';
 
 export default function Sidebar() {
@@ -44,6 +44,7 @@ export default function Sidebar() {
 
                 <NavLink href="/houseboats" active={pathname === '/houseboats'} icon={<Ship size={20} />} label="All Boats" />
                 <NavLink href="/houseboats/new" active={pathname.startsWith('/houseboats/new')} icon={<PlusCircle size={20} />} label="Add Boat" />
+                <NavLink href="/enquiries" active={pathname === '/enquiries'} icon={<ClipboardList size={20} />} label="Enquiries" />
 
                 <div className="pt-4 pb-2">
                     <div className="px-4 text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Categories</div>
@@ -51,10 +52,17 @@ export default function Sidebar() {
                 <NavLink href="/categories" active={pathname === '/categories'} icon={<Package size={20} />} label="All Categories" />
                 <NavLink href="/categories?action=new" active={pathname === '/categories?action=new'} icon={<PlusCircle size={20} />} label="Add Category" />
 
+                <div className="pt-4 pb-2">
+                    <div className="px-4 text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Packages</div>
+                </div>
+                <NavLink href="/packages" active={pathname === '/packages'} icon={<Briefcase size={20} />} label="All Packages" />
+                <NavLink href="/packages?action=new" active={pathname === '/packages?action=new'} icon={<PlusCircle size={20} />} label="Add Package" />
+
                 <div className="mt-6 mb-2 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">
                     Content
                 </div>
                 <NavLink href="/masters" active={pathname.startsWith('/masters')} icon={<Sliders size={20} />} label="Master Data" />
+                <NavLink href="/settings" active={pathname.startsWith('/settings')} icon={<Settings size={20} />} label="Settings" />
             </nav>
 
             <div className="p-6 border-t border-gray-200/50">

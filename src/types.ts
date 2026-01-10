@@ -18,7 +18,7 @@ export interface HouseboatTier {
     description: string;
     highlights: string[];
     features: string[];
-    pricing: {
+    pricing?: {
         startingFrom?: string | number; // Legacy support
         minPrice?: number;
         maxPrice?: number;
@@ -98,15 +98,7 @@ export interface Houseboat {
     status: 'active' | 'maintenance' | 'decommissioned';
     shared_package_available?: boolean;
     // structured price override
-    price_override?: {
-        price_range: {
-            min: number;
-            max: number;
-        }
-    };
-    // Legacy fields (kept for type safety during migration if needed, but primary is above)
-    min_price?: number;
-    max_price?: number;
+
     bedrooms: number;
     capacity_adults: number;
     capacity_children?: number;
@@ -168,11 +160,13 @@ export interface Category {
     _id: string;
     id: string;
     slug: string;
+    type?: 'category' | 'package';
     display_name: string;
     base_price: number;
     sortOrder?: number;
     is_active: boolean;
     fleet_size?: number;
+    whatsappTemplate?: string;
 
     // Rich Content
     tagline?: string;
@@ -185,6 +179,8 @@ export interface Category {
     amenitiesList?: { title: string; desc: string; icon?: string }[];
     stats?: { rating: number };
     reviews?: { name: string; location: string; text: string }[];
+    priceDisplay?: string;
+    isHero?: boolean;
 }
 
 export interface PricingPlan {

@@ -232,41 +232,7 @@ export const BasicInfoStep: FC<BasicInfoStepProps> = ({ formData, handleChange }
             </section>
 
             {/* 3. Pricing Section */}
-            <section className="space-y-6">
-                <div className="border-b border-gray-100 pb-3">
-                    <h2 className="text-lg font-bold text-gray-900">Price Range</h2>
-                    <p className="text-sm text-gray-500">Set the minimum and maximum price per night.</p>
-                </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <PriceInput
-                        label="Minimum Price"
-                        value={formData.price_override?.price_range?.min ?? formData.min_price}
-                        onChange={(v) => handleChange('price_override', {
-                            ...formData.price_override,
-                            price_range: {
-                                ...formData.price_override?.price_range,
-                                min: v,
-                                max: formData.price_override?.price_range?.max ?? formData.max_price ?? 0
-                            }
-                        })}
-                        placeholder="Min Rate"
-                    />
-                    <PriceInput
-                        label="Maximum Price"
-                        value={formData.price_override?.price_range?.max ?? formData.max_price}
-                        onChange={(v) => handleChange('price_override', {
-                            ...formData.price_override,
-                            price_range: {
-                                ...formData.price_override?.price_range,
-                                max: v,
-                                min: formData.price_override?.price_range?.min ?? formData.min_price ?? 0
-                            }
-                        })}
-                        placeholder="Max Rate"
-                    />
-                </div>
-            </section>
         </div>
     );
 };
@@ -302,28 +268,4 @@ const NumberInput: FC<NumberInputProps> = ({ label, value, onChange, min = 0, ma
     </div>
 );
 
-interface PriceInputProps {
-    label: string;
-    value: number | undefined;
-    onChange: (value: number | undefined) => void;
-    placeholder?: string;
-}
 
-const PriceInput: FC<PriceInputProps> = ({ label, value, onChange, placeholder }) => (
-    <div className="space-y-2">
-        <div className="flex justify-between">
-            <label className="block text-sm font-medium text-gray-700">{label}</label>
-        </div>
-        <div className="relative">
-            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 font-medium">₹</span>
-            <input
-                type="number"
-                value={value || ''}
-                onChange={e => onChange(e.target.value ? parseInt(e.target.value) : undefined)}
-                className="w-full pl-8 pr-4 py-2.5 bg-white border border-gray-300 rounded-lg focus:border-gray-900 focus:ring-1 focus:ring-gray-900 outline-none font-medium placeholder:text-gray-300 transition-all text-gray-900"
-                placeholder={placeholder}
-                required
-            />
-        </div>
-    </div>
-);

@@ -28,8 +28,11 @@ export default function CategoriesPage() {
         setLoading(true);
         try {
             const data = await CategoryAPI.getAll() as Category[];
-            if (data && data.length > 0) {
-                setCategories(data);
+            // Filter out packages, keep only 'category' or undefined (legacy)
+            const categories = data.filter(c => !c.type || c.type === 'category');
+
+            if (categories && categories.length > 0) {
+                setCategories(categories);
             } else {
                 setCategories([]);
             }

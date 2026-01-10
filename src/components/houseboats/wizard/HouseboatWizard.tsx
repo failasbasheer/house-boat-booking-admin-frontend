@@ -24,9 +24,6 @@ const emptyHouseboat = (): Houseboat => ({
     capacity_adults: 2,
     has_ac: true,
     cruise_hours: 22,
-    price_override: { price_range: { min: 0, max: 0 } },
-    min_price: undefined, // legacy
-    max_price: undefined, // legacy
     notes: '',
 
     // Rich Data Defaults

@@ -102,8 +102,7 @@ export default function HouseboatPackagePage({ params }: Props) {
                 setOriginal(data);
                 // Map Admin Data to Preview Template Data
                 // Map Admin Data to Preview Template Data
-                const minPrice = data.price_override?.price_range?.min ?? (data.price_override as any)?.min ?? data.min_price ?? 0;
-                const maxPrice = data.price_override?.price_range?.max ?? (data.price_override as any)?.max ?? data.max_price ?? 0;
+
                 const catName = (data.category_id && typeof data.category_id === 'object') ? (data.category_id as any).display_name : 'Houseboat';
 
                 const mapped: HouseboatTier = {
@@ -140,12 +139,7 @@ export default function HouseboatPackagePage({ params }: Props) {
                         }))
                     ],
 
-                    pricing: {
-                        minPrice: minPrice,
-                        maxPrice: maxPrice,
-                        currency: 'INR'
-                    },
-                    priceEstimate: `₹${minPrice} - ₹${maxPrice}`,
+
                     highlights: (data.features || []).map(f => typeof f === 'string' ? 'Feature' : (f as any).name),
                     features: [],
                     faqs: [],
@@ -243,12 +237,7 @@ export default function HouseboatPackagePage({ params }: Props) {
             const payload: Partial<Houseboat> = {
                 name: tier.name,
                 notes: tier.description, // Visual editor description -> Internal notes
-                price_override: {
-                    price_range: {
-                        min: Number(tier.pricing.minPrice),
-                        max: Number(tier.pricing.maxPrice)
-                    }
-                }
+
             };
 
             await HouseboatAPI.update(params.id, payload);
@@ -385,30 +374,7 @@ export default function HouseboatPackagePage({ params }: Props) {
                     {/* RIGHT COLUMN: Sticky Booking Module */}
                     <div className="hidden lg:block lg:col-span-5 relative">
                         <div className="sticky top-12 reveal-on-scroll">
-                            <div className="bg-white p-6 shadow-soft border border-ivory-200 rounded-2xl">
-                                <div className="text-center mb-8">
-                                    <span className="text-[10px] font-bold text-bronze-500 uppercase tracking-[0.2em]">Price Range</span>
-                                    <div className="flex items-center justify-center gap-1 text-3xl font-serif text-forest-950 mt-3">
-                                        <span className="text-lg relative -top-1">₹</span>
-                                        <EditableText
-                                            value={tier.pricing?.minPrice || 0}
-                                            onChange={(val) => updateNestedField('pricing', 'minPrice', val)}
-                                            className="min-w-[80px] text-center"
-                                        />
-                                        <span className="text-xl text-gray-400 font-light">-</span>
-                                        <span className="text-lg relative -top-1">₹</span>
-                                        <EditableText
-                                            value={tier.pricing?.maxPrice || 0}
-                                            onChange={(val) => updateNestedField('pricing', 'maxPrice', val)}
-                                            className="min-w-[80px] text-center"
-                                        />
-                                    </div>
-                                    <p className="text-sm text-espresso-500 mt-2 font-light italic">per night</p>
-                                </div>
-                                <button disabled className="w-full py-5 bg-gray-200 text-gray-400 text-xs font-bold uppercase tracking-[0.2em] rounded-xl cursor-not-allowed">
-                                    Booking Disabled in Editor
-                                </button>
-                            </div>
+
                         </div>
                     </div>
                 </div>

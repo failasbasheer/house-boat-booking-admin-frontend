@@ -1,23 +1,35 @@
 
 'use client';
 
+
 import React, { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { CategoryAPI } from '@/services/api';
+import { SettingsAPI, GlobalSettings } from '@/services/settings.service';
 import { getImageUrl } from '@/lib/constants';
 import { Category } from '@/types';
-import { ArrowLeft, Check, Star, Users, Clock, Info } from 'lucide-react';
+import { ArrowLeft, Check, Star, Users, Clock, Info, MessageCircle } from 'lucide-react';
 
 export default function CategoryPreviewPage() {
     const { id } = useParams();
     const router = useRouter();
     const [category, setCategory] = useState<Category | null>(null);
+    const [settings, setSettings] = useState<GlobalSettings | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        if (id) {
-            loadCategory(id as string);
-        }
+        const loadData = async () => {
+            try {
+                if (id) {
+                    await loadCategory(id as string);
+                }
+                const settingsData = await SettingsAPI.get();
+                setSettings(settingsData);
+            } catch (err) {
+                console.error("Failed to load data", err);
+            }
+        };
+        loadData();
     }, [id]);
 
     const loadCategory = async (catId: string) => {
@@ -180,15 +192,35 @@ export default function CategoryPreviewPage() {
                         <div className="sticky top-32 bg-white border border-gray-100 rounded-2xl shadow-xl overflow-hidden">
                             <div className="bg-gray-900 p-6 text-white text-center">
                                 <p className="text-sm uppercase tracking-widest opacity-80 mb-2">Book Your Experience</p>
+                                {category.base_price && (
+                                    <div className="mt-2">
+                                        <p className="text-xs text-gray-400 uppercase tracking-widest mb-1">Starting From</p>
+                                        <p className="font-serif text-3xl">₹ {category.base_price.toLocaleString()}</p>
+                                    </div>
+                                )}
                             </div>
                             <div className="p-8 space-y-6">
                                 <div className="flex items-start gap-3 text-sm text-gray-600 bg-blue-50 p-4 rounded-lg">
                                     <Info className="text-blue-600 flex-shrink-0 mt-0.5" size={18} />
                                     <p>Access to {category.availableCount || 0} boats in this category.</p>
                                 </div>
-                                <button className="w-full py-4 bg-primary text-white font-bold rounded-xl hover:bg-primary-hover shadow-lg shadow-primary/20 transition-all transform hover:-translate-y-0.5">
-                                    Check Availability
-                                </button>
+
+                                {category.whatsappTemplate ? (
+                                    <a
+                                        href={`https://wa.me/${settings?.whatsappNumber || '916282118829'}?text=${encodeURIComponent(category.whatsappTemplate)}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="w-full py-4 bg-green-500 text-white font-bold rounded-xl hover:bg-green-600 shadow-lg shadow-green-500/20 transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-2"
+                                    >
+                                        <span>Enquire Now</span>
+                                        <MessageCircle className="w-5 h-5 text-white" />
+                                    </a>
+                                ) : (
+                                    <button className="w-full py-4 bg-primary text-white font-bold rounded-xl hover:bg-primary-hover shadow-lg shadow-primary/20 transition-all transform hover:-translate-y-0.5">
+                                        Check Availability
+                                    </button>
+                                )}
+
                                 <p className="text-xs text-center text-gray-400">
                                     Instant confirmation • 100% Secure
                                 </p>
