@@ -22,7 +22,7 @@ export function MasterForm({ type }: { type: string }) {
             if (type === 'amenities') {
             } else if (type === 'features') {
                 payload.category = category;
-            } else if (type === 'badges') {
+
                 payload.label = name;
                 delete payload.name;
                 payload.color = 'blue';
@@ -53,32 +53,32 @@ export function MasterForm({ type }: { type: string }) {
                 />
             </div>
 
-            {type === 'badges' && (
-                <div className="w-40 relative">
-                    <label className="block text-sm font-medium mb-1">
-                        Icon
-                    </label>
-                    <select
-                        value={icon}
-                        onChange={e => setIcon(e.target.value)}
-                        className="w-full border p-2 rounded appearance-none"
-                    >
-                        <option value="">Select Icon</option>
-                        <option value="Star">Star</option>
-                        <option value="Check">Check</option>
-                        <option value="Shield">Shield</option>
-                        <option value="Zap">Zap</option>
-                        <option value="Heart">Heart</option>
-                        <option value="Award">Award</option>
-                        <option value="ThumbsUp">Thumbs Up</option>
-                    </select>
-                    {icon && (
-                        <div className="absolute right-8 top-8 text-blue-600 pointer-events-none">
-                            <DynamicIcon name={icon} size={20} />
-                        </div>
-                    )}
-                </div>
-            )}
+
+            <div className="w-40 relative">
+                <label className="block text-sm font-medium mb-1">
+                    Icon
+                </label>
+                <select
+                    value={icon}
+                    onChange={e => setIcon(e.target.value)}
+                    className="w-full border p-2 rounded appearance-none"
+                >
+                    <option value="">Select Icon</option>
+                    <option value="Star">Star</option>
+                    <option value="Check">Check</option>
+                    <option value="Shield">Shield</option>
+                    <option value="Zap">Zap</option>
+                    <option value="Heart">Heart</option>
+                    <option value="Award">Award</option>
+                    <option value="ThumbsUp">Thumbs Up</option>
+                </select>
+                {icon && (
+                    <div className="absolute right-8 top-8 text-blue-600 pointer-events-none">
+                        <DynamicIcon name={icon} size={20} />
+                    </div>
+                )}
+            </div>
+
 
             {type === 'features' && (
                 <div className="w-40">

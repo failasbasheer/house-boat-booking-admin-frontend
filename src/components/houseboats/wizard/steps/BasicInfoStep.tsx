@@ -18,7 +18,7 @@ export const BasicInfoStep: FC<BasicInfoStepProps> = ({ formData, handleChange }
             setError(null);
             setError(null);
             const data = await CategoryAPI.getAll() as any[];
-            console.log('Categories loaded:', data);
+
             setCategories(data);
             if (data.length > 0 && !formData.category_id) {
                 // Auto-select first if new

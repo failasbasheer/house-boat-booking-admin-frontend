@@ -140,10 +140,7 @@ export function HouseboatTable({ houseboats: initialHouseboats }: { houseboats: 
     const [deleteTarget, setDeleteTarget] = useState<Houseboat | null>(null);
     const [isDeleting, setIsDeleting] = useState(false);
 
-    console.group('HouseboatTable Debug');
-    console.log('Received Houseboats:', initialHouseboats);
-    console.log('Count:', initialHouseboats?.length);
-    console.groupEnd();
+
 
     const handleDeleteClick = (boat: Houseboat) => {
         setDeleteTarget(boat);

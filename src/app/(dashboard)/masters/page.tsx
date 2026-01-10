@@ -34,7 +34,7 @@ export default async function MastersPage({ searchParams }: { searchParams: { ta
         }
     }
 
-    const tabs = ['amenities', 'features', 'badges'];
+    const tabs = ['amenities', 'features'];
 
     return (
         <div className="p-8 max-w-4xl mx-auto">

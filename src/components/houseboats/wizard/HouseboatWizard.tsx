@@ -30,7 +30,7 @@ const emptyHouseboat = (): Houseboat => ({
     tagline: '',
     shortPitch: '',
     description: '',
-    badges: [],
+
     crew: { size: 3, roles: ['Captain', 'Chef', 'Service Staff'] },
     dining: { cuisineTypes: ['Kerala Traditional'], isPrivate: false },
     deck: { type: 'Upper Deck', seating: 'Lounge Chairs' },

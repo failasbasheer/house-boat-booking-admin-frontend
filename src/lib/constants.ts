@@ -13,8 +13,10 @@ export const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || API_BASE_URL.r
  * Otherwise return placeholder or original.
  */
 export const getImageUrl = (path?: string | null): string => {
-    if (!path) return '/logo.png'; // Fallback to logo if no path
+    if (!path) return 'https://placehold.co/600x400?text=Image+Not+Available';
     if (path.startsWith('http') || path.startsWith('blob:')) return path;
     if (path.startsWith('/uploads/')) return `${BACKEND_URL}${path}`;
+    // Handle seeded/simple filenames that are not paths
+    if (!path.startsWith('/')) return `https://placehold.co/600x400?text=${encodeURIComponent(path)}`;
     return path;
 };

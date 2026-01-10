@@ -112,7 +112,7 @@ export default function HouseboatPackagePage({ params }: Props) {
                     tagline: data.tagline || 'Experience the Backwaters',
                     description: data.description || data.notes || `Experience the beauty of Alleppey in our ${catName} houseboat.`,
                     secondaryDescription: data.secondaryDescription || '',
-                    badges: data.badges || [],
+
 
                     shortPitch: data.shortPitch || '',
                     crew: data.crew || { size: 3, roles: ['Captain', 'Chef', 'Service Staff'] },

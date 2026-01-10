@@ -72,7 +72,17 @@ export const CategoryAPI = {
     create: (data: any) => clientFetch('/categories', { method: 'POST', body: JSON.stringify(data) }),
     update: (id: string, data: any) => clientFetch(`/categories/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
     delete: (id: string) => clientFetch(`/categories/${id}`, { method: 'DELETE' }),
-    seed: () => clientFetch('/categories/seed', { method: 'POST' })
+    seed: () => clientFetch('/categories/seed', { method: 'POST' }),
+    syncCounts: () => clientFetch('/categories/sync-counts', { method: 'POST' })
+};
+
+// Packages
+export const PackageAPI = {
+    getAll: () => clientFetch('/packages'),
+    getOne: (id: string) => clientFetch(`/packages/${id}`),
+    create: (data: any) => clientFetch('/packages', { method: 'POST', body: JSON.stringify(data) }),
+    update: (id: string, data: any) => clientFetch(`/packages/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+    delete: (id: string) => clientFetch(`/packages/${id}`, { method: 'DELETE' })
 };
 
 

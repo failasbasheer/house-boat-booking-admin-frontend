@@ -172,6 +172,12 @@ export interface Category {
     availableCount?: number;
     imagePlaceholder?: string;
     amenitiesList?: { title: string; desc: string; icon?: string }[];
+
+    // Package Specific
+    itinerary?: { day?: number; title: string; activity: string }[];
+    inclusions?: string[];
+    exclusions?: string[];
+
     stats?: { rating: number };
     reviews?: { name: string; location: string; text: string }[];
     priceDisplay?: string;

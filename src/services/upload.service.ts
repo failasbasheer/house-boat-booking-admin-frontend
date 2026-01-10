@@ -24,7 +24,7 @@ export const UploadService = {
         }
 
         const data = await response.json();
-        // Return relative URL, Next.js will proxy to backend
+        // Return the full URL (S3)
         return data.url;
     }
 };

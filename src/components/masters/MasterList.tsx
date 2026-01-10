@@ -86,7 +86,7 @@ export function MasterList({ items, type }: { items: any[], type: string }) {
                     <thead className="bg-gray-50">
                         <tr>
                             <th className="px-6 py-4 text-left text-xs font-bold text-muted uppercase tracking-wider font-serif sticky top-0 z-10 bg-gray-50/95 backdrop-blur shadow-sm">Name</th>
-                            {type === 'badges' && <th className="px-6 py-4 text-left text-xs font-bold text-muted uppercase tracking-wider font-serif sticky top-0 z-10 bg-gray-50/95 backdrop-blur shadow-sm">Icon</th>}
+
                             <th className="px-6 py-4 text-right text-xs font-bold text-muted uppercase tracking-wider font-serif sticky top-0 z-10 bg-gray-50/95 backdrop-blur shadow-sm">Actions</th>
                         </tr>
                     </thead>
@@ -99,11 +99,11 @@ export function MasterList({ items, type }: { items: any[], type: string }) {
                                     </span>
                                     {item.category && <span className="ml-2 text-[10px] bg-gray-100 px-2 py-0.5 rounded text-gray-500 uppercase tracking-wide">{item.category}</span>}
                                 </td>
-                                {type === 'badges' && (
-                                    <td className="px-6 py-4 whitespace-nowrap">
-                                        {item.icon && <span className="text-gray-500"><DynamicIcon name={item.icon} size={20} /></span>}
-                                    </td>
-                                )}
+
+                                <td className="px-6 py-4 whitespace-nowrap">
+                                    {item.icon && <span className="text-gray-500"><DynamicIcon name={item.icon} size={20} /></span>}
+                                </td>
+
                                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                     <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                                         <button

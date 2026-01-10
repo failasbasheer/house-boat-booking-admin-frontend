@@ -39,15 +39,10 @@ export default function CategoryPreviewPage() {
             const all = await CategoryAPI.getAll() as Category[];
             const found = all.find(c => c._id === catId || c.slug === catId || c.id === catId);
             if (found) {
-                console.group('Category Preview Debug');
-                console.log('Category ID/Slug:', catId);
-                console.log('Category Data:', found);
-                console.log('Raw Image Placeholder:', found.imagePlaceholder);
-                console.log('Processed Image URL:', getImageUrl(found.imagePlaceholder));
-                console.groupEnd();
+
                 setCategory(found);
             } else {
-                console.warn('Category not found for ID:', catId);
+
             }
         } catch (e) {
             console.error(e);
@@ -120,13 +115,6 @@ export default function CategoryPreviewPage() {
                                     <p className="font-medium">{category.duration || 'Overnight'}</p>
                                 </div>
                             </div>
-                            <div className="flex items-center gap-3">
-                                <Clock className="text-white/80" />
-                                <div>
-                                    <p className="text-xs text-gray-400 uppercase tracking-wider">Duration</p>
-                                    <p className="font-medium">{category.duration || 'Overnight'}</p>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -146,45 +134,88 @@ export default function CategoryPreviewPage() {
                             </div>
                         </section>
 
-                        {/* Amenities */}
+                        {/* Itinerary (For Packages) */}
+                        {category.itinerary && category.itinerary.length > 0 && (
+                            <section>
+                                <h2 className="text-2xl font-serif font-bold text-gray-900 mb-8">Itinerary</h2>
+                                <div className="space-y-8 border-l-2 border-gray-200 ml-4 pl-8 relative">
+                                    {category.itinerary.map((day, idx) => (
+                                        <div key={idx} className="relative">
+                                            <span className="absolute -left-[41px] top-0 w-6 h-6 bg-gray-900 rounded-full border-4 border-white ring-1 ring-gray-200"></span>
+                                            <h3 className="text-lg font-bold text-gray-900 mb-2">Day {day.day}: {day.title}</h3>
+                                            <p className="text-gray-600 leading-relaxed">{day.activity}</p>
+                                        </div>
+                                    ))}
+                                </div>
+                            </section>
+                        )}
+
+                        {/* Inclusions / Amenities */}
                         <section>
                             <h2 className="text-2xl font-serif font-bold text-gray-900 mb-8">What&apos;s Included</h2>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                {category.amenitiesList?.map((amenity, idx) => (
-                                    <div key={idx} className="flex items-start gap-4 p-4 border rounded-xl hover:border-gray-400 transition-colors">
-                                        <div className="bg-gray-100 p-2 rounded-lg">
-                                            <Check size={20} className="text-gray-900" />
+                                {/* Prefer Inclusions for Packages */}
+                                {category.inclusions && category.inclusions.length > 0 ? (
+                                    category.inclusions.map((item, idx) => (
+                                        <div key={idx} className="flex items-start gap-4 p-4 border rounded-xl bg-green-50/50 border-green-100">
+                                            <div className="bg-green-100 p-2 rounded-lg text-green-700">
+                                                <Check size={18} />
+                                            </div>
+                                            <div>
+                                                <p className="font-medium text-gray-900">{item}</p>
+                                            </div>
                                         </div>
-                                        <div>
-                                            <h3 className="font-bold text-gray-900 mb-1">{amenity.title}</h3>
-                                            <p className="text-sm text-gray-500">{amenity.desc}</p>
+                                    ))
+                                ) : category.amenitiesList && category.amenitiesList.length > 0 ? (
+                                    category.amenitiesList.map((amenity, idx) => (
+                                        <div key={idx} className="flex items-start gap-4 p-4 border rounded-xl hover:border-gray-400 transition-colors">
+                                            <div className="bg-gray-100 p-2 rounded-lg">
+                                                <Check size={20} className="text-gray-900" />
+                                            </div>
+                                            <div>
+                                                <h3 className="font-bold text-gray-900 mb-1">{amenity.title}</h3>
+                                                <p className="text-sm text-gray-500">{amenity.desc}</p>
+                                            </div>
                                         </div>
-                                    </div>
-                                ))}
-                                {(!category.amenitiesList || category.amenitiesList.length === 0) && (
-                                    <p className="text-gray-500 italic">No amenities listed.</p>
+                                    ))
+                                ) : (
+                                    <p className="text-gray-500 italic">No specific inclusions listed.</p>
                                 )}
                             </div>
+
+                            {/* Exclusions if available */}
+                            {category.exclusions && category.exclusions.length > 0 && (
+                                <div className="mt-8">
+                                    <h3 className="text-lg font-bold text-gray-900 mb-4">Exclusions</h3>
+                                    <ul className="list-disc list-inside text-gray-600 space-y-1">
+                                        {category.exclusions.map((ex, i) => (
+                                            <li key={i}>{ex}</li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            )}
                         </section>
 
                         {/* Reviews */}
-                        <section>
-                            <h2 className="text-2xl font-serif font-bold text-gray-900 mb-8">Guest Reviews</h2>
-                            <div className="grid grid-cols-1 gap-6">
-                                {category.reviews?.slice(0, 3).map((review, idx) => (
-                                    <div key={idx} className="bg-gray-50 p-8 rounded-2xl relative">
-                                        <div className="text-4xl text-gray-300 absolute top-6 left-6 font-serif">&quot;</div>
-                                        <p className="text-gray-700 italic mb-6 relative z-10 pl-4">{review.text}</p>
-                                        <div className="flex items-center gap-3 pl-4 border-l-2 border-gray-300">
-                                            <div>
-                                                <p className="font-bold text-gray-900 text-sm">{review.name}</p>
-                                                <p className="text-xs text-gray-500">{review.location}</p>
+                        {category.reviews && category.reviews.length > 0 && (
+                            <section>
+                                <h2 className="text-2xl font-serif font-bold text-gray-900 mb-8">Guest Reviews</h2>
+                                <div className="grid grid-cols-1 gap-6">
+                                    {category.reviews.slice(0, 3).map((review, idx) => (
+                                        <div key={idx} className="bg-gray-50 p-8 rounded-2xl relative">
+                                            <div className="text-4xl text-gray-300 absolute top-6 left-6 font-serif">&quot;</div>
+                                            <p className="text-gray-700 italic mb-6 relative z-10 pl-4">{review.text}</p>
+                                            <div className="flex items-center gap-3 pl-4 border-l-2 border-gray-300">
+                                                <div>
+                                                    <p className="font-bold text-gray-900 text-sm">{review.name}</p>
+                                                    <p className="text-xs text-gray-500">{review.location}</p>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </section>
+                                    ))}
+                                </div>
+                            </section>
+                        )}
                     </div>
 
                     {/* Sidebar / Booking Card */}

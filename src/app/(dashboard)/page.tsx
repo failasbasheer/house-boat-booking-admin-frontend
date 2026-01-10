@@ -42,7 +42,7 @@ export default async function DashboardPage() {
     const stats = result.data;
     const houseboats = stats?.houseboats || { total: 0, active: 0 };
     const categories = stats?.categories || { total: 0, active: 0 };
-    const masters = stats?.masters || { amenities: 0, features: 0, badges: 0 };
+    const masters = stats?.masters || { amenities: 0, features: 0 };
 
     return (
         <>
@@ -85,7 +85,7 @@ export default async function DashboardPage() {
                             />
                             <DashboardCard
                                 title="Master Items"
-                                value={(masters.amenities + masters.features + masters.badges)}
+                                value={(masters.amenities + masters.features)}
                                 icon={<SettingsIcon />}
                                 color="from-amber-500 to-amber-600"
                                 shadow="shadow-amber-500/20"

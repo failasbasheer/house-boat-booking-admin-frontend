@@ -60,29 +60,25 @@ export function CategoryForm({ initialData, onSuccess, onCancel }: CategoryFormP
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-8 p-1">
 
             <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm space-y-4">
-                <h3 className="text-lg font-bold text-gray-800 border-b pb-2 mb-4">Basic Information</h3>
+                <h3 className="text-lg font-bold text-gray-800 border-b pb-2 mb-4">Fleet Class Config</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Display Name</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Class Name</label>
                         <input {...register('display_name', { required: 'Name is required' })} className="w-full p-2 border rounded-lg" placeholder="e.g. Deluxe Houseboats" />
                         {errors.display_name && <span className="text-red-500 text-xs">{errors.display_name.message}</span>}
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Slug (ID)</label>
-                        <input {...register('id')} className="w-full p-2 border rounded-lg" placeholder="e.g. deluxe (auto-generated if empty)" />
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Slug (Auto-generated)</label>
+                        <input {...register('id')} disabled className="w-full p-2 border rounded-lg bg-gray-50 text-gray-400 cursor-not-allowed" placeholder="Auto-generated from name" />
+
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Available Count</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Fleet Size (Available Count)</label>
                         <input type="number" {...register('availableCount', { valueAsNumber: true })} className="w-full p-2 border rounded-lg" />
                     </div>
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">Starting Price (Numerical)</label>
                         <input type="number" {...register('base_price', { valueAsNumber: true })} className="w-full p-2 border rounded-lg" placeholder="e.g. 15000" />
-                    </div>
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Display Price (String)</label>
-                        <input {...register('priceDisplay')} className="w-full p-2 border rounded-lg" placeholder="e.g. ₹ 15,000 / night" />
-                        <p className="text-[10px] text-gray-500 mt-1">Used for promo cards</p>
                     </div>
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">WhatsApp Template</label>
@@ -93,12 +89,8 @@ export function CategoryForm({ initialData, onSuccess, onCancel }: CategoryFormP
                         <input {...register('tagline')} className="w-full p-2 border rounded-lg" placeholder="e.g. Best Value Experience" />
                     </div>
                     <div className="flex items-center space-x-2">
-                        <input type="checkbox" {...register('is_active')} className="h-4 w-4 text-blue-600 rounded" />
+                        <input type="checkbox" {...register('is_active')} className="h-4 w-4 text-primary rounded" />
                         <label className="text-sm font-medium text-gray-700">Active</label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                        <input type="checkbox" {...register('isHero')} className="h-4 w-4 text-amber-600 rounded" />
-                        <label className="text-sm font-medium text-gray-700">Feature in Hero (Promo)</label>
                     </div>
                 </div>
             </div>

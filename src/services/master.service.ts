@@ -2,7 +2,7 @@ import { clientFetch } from './api';
 
 export const MasterService = {
     // Generic list fetcher
-    list: async (type: 'amenities' | 'features' | 'badges') => {
+    list: async (type: 'amenities' | 'features') => {
         return clientFetch(`/masters/${type}`);
     },
 

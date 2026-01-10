@@ -15,7 +15,7 @@ export const PREMIUM_TIER: HouseboatTier = {
     duration: 'Overnight Cruise',
     guestCapacity: '2 - 6 Guests',
     secondaryDescription: 'Immerse yourself in the tranquility of the Alleppey backwaters. This vessel is designed not just for travel, but for comfort. Every detail invites you to slow down and enjoy the journey.',
-    badges: ['Premium Class', 'Guest Favorite', 'Govt. Authorized'],
+
     amenitiesList: [
         { icon: 'Wind', title: 'Climate Control', desc: 'AC Bedrooms (9PM - 6AM)' },
         { icon: 'Utensils', title: 'Full Board Dining', desc: 'Lunch, Dinner & Breakfast' },
@@ -209,7 +209,7 @@ export const LUXURY_TIER: HouseboatTier = {
     duration: 'Overnight Cruise',
     guestCapacity: '2 - 10 Guests',
     secondaryDescription: 'Experience the pinnacle of luxury. With a personal butler, infinity pool deck, and presidential suites, this houseboat offers a floating five-star hotel experience unlike any other.',
-    badges: ['Luxury Class', 'Elite Choice', 'Butler Service'],
+
     amenitiesList: [
         { icon: 'Wind', title: 'Central AC', desc: '24/7 Climate Control' },
         { icon: 'Utensils', title: 'Gourmet Dining', desc: 'Chef-prepared meals' },
@@ -400,7 +400,7 @@ export const DELUXE_TIER: HouseboatTier = {
     duration: 'Overnight Cruise',
     guestCapacity: '2 - 8 Guests',
     secondaryDescription: 'A perfect blend of tradition and comfort. Enjoy the authentic Kerala houseboat experience with modern amenities and a friendly crew dedicated to your service.',
-    badges: ['Deluxe Class', 'Best Value', 'Family Friendly'],
+
     amenitiesList: [
         { icon: 'Wind', title: 'AC Bedroom', desc: '9PM - 6AM Cooling' },
         { icon: 'Utensils', title: 'Traditional Food', desc: 'Kerala Style Meals' },
@@ -615,7 +615,7 @@ export const HONEYMOON_TIER: HouseboatTier = {
     duration: '21 Hours',
     guestCapacity: '2 Guests',
     secondaryDescription: 'Celebrate your love in the most romantic setting. Private decks, candlelight dinners, and flower decorations create an unforgettable atmosphere for honeymooners.',
-    badges: ['Honeymoon Special', 'Privacy Guaranteed', 'Romantic Choice'],
+
     amenitiesList: [
         { icon: 'Wind', title: 'Private AC', desc: 'Cozy Bedroom' },
         { icon: 'Utensils', title: 'Candlelight Dinner', desc: 'Romantic Setting' },

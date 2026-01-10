@@ -2,11 +2,12 @@
 
 import React, { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { CategoryAPI } from '@/services/api';
+import { PackageAPI } from '@/services/api';
 import { Category } from '@/types';
 import { Plus, Search, Edit2, Trash2 } from 'lucide-react';
 import { useToast } from '@/components/ui/Toast';
-import { CategoryForm } from '@/components/categories/CategoryForm';
+import { PackageForm } from '@/components/packages/PackageForm';
+import { getImageUrl } from '@/lib/constants';
 
 export default function PackagesClient() {
     const [categories, setCategories] = useState<Category[]>([]);
@@ -21,10 +22,9 @@ export default function PackagesClient() {
     const loadPackages = React.useCallback(async () => {
         setLoading(true);
         try {
-            const data = await CategoryAPI.getAll() as Category[];
-            // Filter only packages
-            const packages = data.filter(c => c.type === 'package');
-            setCategories(packages);
+
+            const data = await PackageAPI.getAll() as Category[];
+            setCategories(data);
         } catch (err) {
             console.error(err);
             error('Failed to load packages');
@@ -43,9 +43,8 @@ export default function PackagesClient() {
             setShowForm(true);
         } else if (searchParams.get('action') === 'edit' && searchParams.get('id')) {
             const id = searchParams.get('id');
-            // We need to fetch or find the category
-            // For now, let's assume it's in the list or we fetch it
-            CategoryAPI.getAll().then((data: any) => {
+
+            PackageAPI.getAll().then((data: any) => {
                 const found = data.find((c: Category) => c._id === id);
                 if (found) {
                     setEditingCategory(found);
@@ -68,7 +67,7 @@ export default function PackagesClient() {
     const handleDelete = async (id: string) => {
         if (confirm('Are you sure you want to delete this package?')) {
             try {
-                await CategoryAPI.delete(id);
+                await PackageAPI.delete(id);
                 success('Package deleted successfully');
                 loadPackages();
             } catch (err) {
@@ -80,10 +79,11 @@ export default function PackagesClient() {
 
 
 
-    // Filtered list
+
     const filteredHelper = categories.filter(c =>
-        c.display_name.toLowerCase().includes(searchTerm.toLowerCase())
+        (c.display_name || '').toLowerCase().includes(searchTerm.toLowerCase())
     );
+
 
     if (showForm) {
         return (
@@ -97,20 +97,22 @@ export default function PackagesClient() {
                     </h1>
                 </div>
                 <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                    <CategoryForm
-                        initialData={editingCategory || { type: 'package' }}
-                        onSuccess={() => {
-                            setShowForm(false);
-                            setEditingCategory(null);
-                            router.push('/packages');
-                            loadPackages();
-                        }}
-                        onCancel={() => {
-                            setShowForm(false);
-                            setEditingCategory(null);
-                            router.push('/packages');
-                        }}
-                    />
+                    <div className="bg-white p-1 rounded-xl shadow-sm border border-gray-100">
+                        <PackageForm
+                            initialData={editingCategory || { type: 'package' }}
+                            onSuccess={() => {
+                                setShowForm(false);
+                                setEditingCategory(null);
+                                router.push('/packages');
+                                loadPackages();
+                            }}
+                            onCancel={() => {
+                                setShowForm(false);
+                                setEditingCategory(null);
+                                router.push('/packages');
+                            }}
+                        />
+                    </div>
                 </div>
             </div>
         );
@@ -132,7 +134,7 @@ export default function PackagesClient() {
                 </button>
             </div>
 
-            {/* Search */}
+
             <div className="relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
                 <input
@@ -144,78 +146,108 @@ export default function PackagesClient() {
                 />
             </div>
 
-            {/* Table */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-                <table className="w-full text-left">
-                    <thead className="bg-gray-50 border-b border-gray-100">
-                        <tr>
-                            <th className="px-6 py-4 font-semibold text-gray-600">Name</th>
-                            <th className="px-6 py-4 font-semibold text-gray-600">Price</th>
-                            <th className="px-6 py-4 font-semibold text-gray-600">Duration</th>
-                            <th className="px-6 py-4 font-semibold text-gray-600">Status</th>
-                            <th className="px-6 py-4 font-semibold text-gray-600 text-right">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody className="divide-y divide-gray-100">
-                        {loading ? (
-                            <tr><td colSpan={5} className="p-8 text-center text-gray-500">Loading packages...</td></tr>
-                        ) : filteredHelper.length === 0 ? (
-                            <tr><td colSpan={5} className="p-8 text-center text-gray-500">No packages found.</td></tr>
-                        ) : (
-                            filteredHelper.map((pkg) => (
-                                <tr key={pkg._id} className="hover:bg-gray-50 transition-colors">
-                                    <td className="px-6 py-4">
-                                        <div className="font-medium text-gray-900 flex items-center gap-2">
-                                            {pkg.display_name}
-                                            {pkg.isHero && (
-                                                <span className="bg-amber-100 text-amber-700 text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wide border border-amber-200">
-                                                    Hero
-                                                </span>
-                                            )}
-                                        </div>
-                                        <div className="text-xs text-gray-500">{pkg.tagline}</div>
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        ₹ {pkg.base_price?.toLocaleString() || '-'}
-                                    </td>
-                                    <td className="px-6 py-4 text-gray-600">
-                                        {pkg.duration || '-'}
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${pkg.is_active ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
-                                            {pkg.is_active ? 'Active' : 'Inactive'}
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {loading ? (
+                    [...Array(3)].map((_, i) => (
+                        <div key={i} className="bg-white rounded-xl shadow-sm border border-gray-100 h-80 animate-pulse">
+                            <div className="h-48 bg-gray-100 rounded-t-xl" />
+                            <div className="p-4 space-y-3">
+                                <div className="h-6 bg-gray-100 rounded w-3/4" />
+                                <div className="h-4 bg-gray-100 rounded w-1/2" />
+                            </div>
+                        </div>
+                    ))
+                ) : filteredHelper.length === 0 ? (
+                    <div className="col-span-full py-12 text-center bg-white rounded-xl border border-dashed border-gray-200">
+                        <div className="mx-auto w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mb-4">
+                            <Search className="text-gray-400" size={24} />
+                        </div>
+                        <h3 className="text-lg font-medium text-gray-900">No packages found</h3>
+                        <p className="text-gray-500 mt-1">Try adjusting your search terms</p>
+                    </div>
+                ) : (
+                    filteredHelper.map((pkg) => (
+                        <div key={pkg._id} className="group bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-all duration-300 flex flex-col">
+
+                            <div className="relative h-48 w-full overflow-hidden bg-gray-100">
+                                {/* eslint-disable-next-line @next/next/no-img-element */}
+                                <img
+                                    src={getImageUrl(pkg.imagePlaceholder)}
+                                    onError={(e) => {
+                                        (e.target as HTMLImageElement).src = 'https://placehold.co/600x400?text=Package';
+                                    }}
+                                    alt={pkg.display_name}
+                                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-60" />
+
+
+                                <div className="absolute top-3 right-3">
+                                    <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider backdrop-blur-md ${pkg.is_active ? 'bg-white/90 text-green-700' : 'bg-gray-900/90 text-white'}`}>
+                                        {pkg.is_active ? 'Active' : 'Inactive'}
+                                    </span>
+                                </div>
+
+
+                                {pkg.isHero && (
+                                    <div className="absolute top-3 left-3">
+                                        <span className="bg-amber-400 text-amber-950 text-[10px] px-2.5 py-1 rounded-full font-bold uppercase tracking-wider shadow-lg flex items-center gap-1">
+                                            <span className="w-1.5 h-1.5 rounded-full bg-amber-950 animate-pulse" />
+                                            Hero
                                         </span>
-                                    </td>
-                                    <td className="px-6 py-4 text-right">
-                                        <div className="flex justify-end gap-2">
-                                            <button
-                                                onClick={() => router.push(`/categories/${pkg.slug}/preview`)}
-                                                className="p-2 hover:bg-gray-100 rounded-lg text-gray-600"
-                                                title="Preview"
-                                            >
-                                                <Search size={16} />
-                                            </button>
-                                            <button
-                                                onClick={() => handleEdit(pkg)}
-                                                className="p-2 hover:bg-blue-50 rounded-lg text-blue-600"
-                                                title="Edit"
-                                            >
-                                                <Edit2 size={16} />
-                                            </button>
-                                            <button
-                                                onClick={() => handleDelete(pkg._id)}
-                                                className="p-2 hover:bg-red-50 rounded-lg text-red-600"
-                                                title="Delete"
-                                            >
-                                                <Trash2 size={16} />
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            ))
-                        )}
-                    </tbody>
-                </table>
+                                    </div>
+                                )}
+                            </div>
+
+
+                            <div className="p-5 flex-1 flex flex-col">
+                                <h3 className="text-lg font-bold text-gray-900 font-serif mb-1 line-clamp-1">{pkg.display_name}</h3>
+                                {(pkg.tagline || pkg.duration) && (
+                                    <div className="flex items-center gap-2 text-xs text-gray-500 mb-4 font-medium uppercase tracking-wide">
+                                        {pkg.duration && <span>{pkg.duration}</span>}
+                                        {pkg.duration && pkg.tagline && <span>•</span>}
+                                        {pkg.tagline && <span className="line-clamp-1">{pkg.tagline}</span>}
+                                    </div>
+                                )}
+
+                                {pkg.description && (
+                                    <p className="text-gray-600 text-sm line-clamp-2 mb-4 flex-1">
+                                        {pkg.description}
+                                    </p>
+                                )}
+
+
+                                <div className="border-t border-gray-100 pt-4 flex items-center justify-between mt-auto">
+                                    <button
+                                        onClick={() => router.push(`/packages/${pkg.slug}/preview`)}
+                                        className="text-xs font-semibold text-gray-600 hover:text-primary transition-colors flex items-center gap-1"
+                                    >
+
+                                        View Details
+                                    </button>
+
+                                    <div className="flex gap-2">
+                                        <button
+                                            onClick={() => handleEdit(pkg)}
+                                            className="p-1.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                                            title="Edit"
+                                        >
+                                            <Edit2 size={16} />
+                                        </button>
+                                        <button
+                                            onClick={() => handleDelete(pkg._id)}
+                                            className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                                            title="Delete"
+                                        >
+                                            <Trash2 size={16} />
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    ))
+                )}
             </div>
         </div>
     );
