@@ -13,7 +13,7 @@ export interface HouseboatTier {
     duration: string;
     guestCapacity: string;
     secondaryDescription: string;
-    badges: string[];
+
     amenitiesList: { icon: string; title: string; desc: string }[];
     description: string;
     highlights: string[];
@@ -76,12 +76,7 @@ export interface Amenity {
 
 
 
-export interface Badge {
-    _id: string;
-    label: string;
-    color?: string;
-    icon?: string;
-}
+
 
 
 
@@ -120,7 +115,7 @@ export interface Houseboat {
     shortPitch?: string;
     description?: string;
     secondaryDescription?: string;
-    badges?: string[];
+
 
     // Rich Features
     crew?: {
